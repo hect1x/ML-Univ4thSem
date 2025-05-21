@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Recommender</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Course Recommender</h1>
+            <p>Find the perfect Coursera courses for your learning journey</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <form id="search-form" onsubmit="return false;">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="What do you want to learn today?">
+                    <button type="button" id="search-button">Find Courses</button>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="difficulty-filter">Difficulty:</label>
+                        <select id="difficulty-filter">
+                            <option value="all">All Levels</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label for="rating-filter">Min Rating:</label>
+                        <select id="rating-filter">
+                            <option value="0">Any Rating</option>
+                            <option value="3">3.0+</option>
+                            <option value="4">4.0+</option>
+                            <option value="4.5">4.5+</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <h2>Recommended Courses</h2>
+            <div id="results-count"></div>
+            <div id="course-grid"></div>
+        </section>
+
+        <section id="no-results" class="hidden">
+            <h2>No courses found</h2>
+            <p>Try adjusting your search terms or filters</p>
+        </section>
+    </main>
+
+    <template id="course-card-template">
+        <div class="course-card">
+            <div class="course-header">
+                <h3 class="course-title"></h3>
+                <div class="course-meta">
+                    <span class="university"></span>
+                    <div class="rating-container">
+                        <span class="rating-value"></span>
+                        <div class="rating-stars"></div>
+                    </div>
+                </div>
+                <span class="difficulty"></span>
+            </div>
+            <div class="course-body">
+                <p class="course-description"></p>
+                <div class="skills-container">
+                    <h4>Skills you&rsquo;ll gain:</h4>
+                    <div class="skills-list"></div>
+                </div>
+                <div class="keywords-container">
+                    <h4>Keywords:</h4>
+                    <div class="keywords-list"></div>
+                </div>
+            </div>
+            <div class="course-footer">
+                <a href="#" class="course-link" target="_blank">View Course</a>
+            </div>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
