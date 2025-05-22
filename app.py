@@ -64,8 +64,12 @@ except Exception as e:
     knn = None
 
 @app.route('/')
-def home():
+def index():
     return render_template('index.html')
+
+@app.route('/recommendations')
+def recommendation():
+    return render_template('recommendation.html')
 
 @app.route('/api/recommend', methods=['POST'])
 def api():

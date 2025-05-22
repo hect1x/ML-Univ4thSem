@@ -3,94 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Course Recommender</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>NextCourse - Find Your Perfect Learning Path</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='recommendation.css') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
 </head>
 <body>
-    <header>
+    <header class="main-header">
         <div class="container">
-            <h1>Course Recommender</h1>
-            <p>Find the perfect Coursera courses for your learning journey</p>
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="NextCourse Logo" class="logo-icon">
+                <h1 class="logo-text">NextCourse</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}" class="active">Home</a></li>
+                    <li><a href="{{ url_for('recommendation') }}">Get Recommendations</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <main class="container">
-        <section class="search-section">
-            <form id="search-form" onsubmit="return false;">
-                <div class="search-container">
-                    <input type="text" id="search-input" placeholder="What do you want to learn today?">
-                    <button type="button" id="search-button">Find Courses</button>
-                </div>
-                
-                <div class="filters">
-                    <div class="filter-group">
-                        <label for="difficulty-filter">Difficulty:</label>
-                        <select id="difficulty-filter">
-                            <option value="all">All Levels</option>
-                            <option value="Beginner">Beginner</option>
-                            <option value="Intermediate">Intermediate</option>
-                            <option value="Advanced">Advanced</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label for="rating-filter">Min Rating:</label>
-                        <select id="rating-filter">
-                            <option value="0">Any Rating</option>
-                            <option value="3">3.0+</option>
-                            <option value="4">4.0+</option>
-                            <option value="4.5">4.5+</option>
-                        </select>
-                    </div>
-                </div>
-            </form>
-        </section>
-
-        <section id="results-section" class="hidden">
-            <h2>Recommended Courses</h2>
-            <div id="results-count"></div>
-            <div id="course-grid"></div>
-        </section>
-
-        <section id="no-results" class="hidden">
-            <h2>No courses found</h2>
-            <p>Try adjusting your search terms or filters</p>
-        </section>
-    </main>
-
-    <template id="course-card-template">
-        <div class="course-card">
-            <div class="course-header">
-                <h3 class="course-title"></h3>
-                <div class="course-meta">
-                    <span class="university"></span>
-                    <div class="rating-container">
-                        <span class="rating-value"></span>
-                        <div class="rating-stars"></div>
-                    </div>
-                </div>
-                <span class="difficulty"></span>
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-flex">
+            <div class="hero-content">
+                <h1>Discover Your Perfect Course</h1>
+                <p>Find the best Coursera courses tailored to your interests, skill level, and learning goals.</p>
+                <a href="{{ url_for('recommendation') }}" class="cta-button">Get Recommendations</a>
             </div>
-            <div class="course-body">
-                <p class="course-description"></p>
-                <div class="skills-container">
-                    <h4>Skills you&rsquo;ll gain:</h4>
-                    <div class="skills-list"></div>
+            <dotlottie-player src="https://lottie.host/c8adc096-920c-4a29-a330-44f7a070f9c9/2Oo6SpuC3l.lottie" background="transparent" speed="1" style="width: 400px; height: 400px" loop autoplay></dotlottie-player>
+        </div>
+        </div>
+        <div class="wave-shape"></div>
+    </section>
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon search-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <h3>Personalized Recommendations</h3>
+                    <p>Enter your interests and we'll find courses that match your learning goals.</p>
                 </div>
-                <div class="keywords-container">
-                    <h4>Keywords:</h4>
-                    <div class="keywords-list"></div>
+                <div class="feature-card">
+                    <div class="feature-icon filter-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                    </div>
+                    <h3>Filter by Rating & Difficulty</h3>
+                    <p>Customize your search with filters for course ratings and difficulty levels.</p>
                 </div>
-            </div>
-            <div class="course-footer">
-                <a href="#" class="course-link" target="_blank">View Course</a>
+                <div class="feature-card">
+                    <div class="feature-icon graduation-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                            <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+                        </svg>
+                    </div>
+                    <h3>Skill-Aligned Courses</h3>
+                    <p>Find courses that help you develop the specific skills you want to learn.</p>
+                </div>
             </div>
         </div>
-    </template>
+    </section>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <section class="cta-section">
+        <div class="container">
+            <h2>Ready to find your next learning opportunity?</h2>
+            <p>Our recommendation system helps you navigate through hundreds of Coursera courses to find the perfect match for your learning journey.</p>
+            <a href="{{ url_for('recommendation') }}" class="cta-button">Get Started Now</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 NextCourse. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('recommendation') }}">Recommendations</a>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

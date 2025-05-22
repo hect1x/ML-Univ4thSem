@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextCourse - Course Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='recommendation.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="NextCourse Logo" class="logo-icon">
+                <h1 class="logo-text">NextCourse</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="{{ url_for('index') }}">Home</a></li>
+                    <li><a href="{{ url_for('recommendation') }}" class="active">Get Recommendations</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="search-section">
+            <div class="search-header" style="text-align:center; margin-bottom:2.5rem;">
+                <h1 style="font-size:2.5rem; font-weight:700; color:#1f2937; margin-bottom:0.7rem;">
+                    Find Your Perfect Course
+                </h1>
+                <p style="font-size:1.1rem; color:#6b7280;">
+                    Enter your interests and preferences to get personalized course recommendations.
+                </p>
+            </div>
+            <form id="search-form" onsubmit="return false;">
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="What do you want to learn today?">
+                    <button type="button" id="search-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" style="vertical-align:middle; margin-right:0.5rem;" viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                            <line x1="16.65" y1="16.65" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Find Courses
+                    </button>
+                </div>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="difficulty-filter">Difficulty:</label>
+                        <select id="difficulty-filter">
+                            <option value="all">All Levels</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    
+                    <!-- <div class="filter-group">
+                        <label for="rating-filter">Min Rating:</label>
+                        <select id="rating-filter">
+                            <option value="0">Any Rating</option>
+                            <option value="3">3.0+</option>
+                            <option value="4">4.0+</option>
+                            <option value="4.5">4.5+</option>
+                        </select>
+                    </div> -->
+
+                    <div class="filter-group">
+                        <label for="rating-filter">Minimum Rating:</label>
+                        <input type="range" id="rating-filter" min="0" max="5" step="0.1" value="0" style="width: 160px;">
+                        <span id="rating-value">0.0</span>
+                    </div>
+                </div>
+            </form>
+        </section>
+
+        <section id="results-section" class="hidden">
+            <h2>Recommended Courses</h2>
+            <div id="results-count"></div>
+            <div id="course-grid"></div>
+        </section>
+
+        <section id="no-results" class="hidden">
+            <h2>No courses found</h2>
+            <p>Try adjusting your search terms or filters</p>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-copyright">
+                    <p>&copy; 2025 NextCourse. All rights reserved.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('recommendation') }}">Recommendations</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <template id="course-card-template">
+        <div class="course-card">
+            <div class="course-header">
+                <h3 class="course-title"></h3>
+                <div class="course-meta">
+                    <span class="university"></span>
+                    
+                </div>
+                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <span class="difficulty"></span>
+                    <div class="rating-container">
+                        <span class="rating-value"></span>
+                        <div class="rating-stars"></div>
+                    </div>
+                </div> 
+            </div>
+            <div class="course-body">
+                <p class="course-description"></p>
+                <div class="skills-container">
+                    <h4>Skills you&rsquo;ll gain:</h4>
+                    <div class="skills-list"></div>
+                </div>
+                <!-- <div class="keywords-container">
+                    <h4>Keywords:</h4>
+                    <div class="keywords-list"></div>
+                </div> -->
+            </div>
+            <div class="course-footer">
+                <a href="#" class="course-link" target="_blank">View Course</a>
+            </div>
+        </div>
+    </template>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
