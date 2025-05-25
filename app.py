@@ -7,6 +7,8 @@ import numpy as np
 from collections import Counter
 import os, logging
 
+
+# knn evaluation https://colab.research.google.com/drive/1SmJT5yZ4dV_OR9LcjtAOj0Qr36NQzWcF?usp=sharing
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -46,7 +48,7 @@ try:
     X = v.fit_transform(d['Keywords'])
     log.info(f"TF-IDF done: {X.shape}")
     
-    knn = NearestNeighbors(n_neighbors=min(15, len(d)), metric='cosine', algorithm='brute')
+    knn = NearestNeighbors(n_neighbors=min(33, len(d)), metric='cosine', algorithm='brute')
     knn.fit(X)
     log.info("KNN model trained")
     
@@ -99,7 +101,7 @@ def api():
         log.error(f"/api/recommend error: {str(e)}")
         return jsonify({"error":str(e)}),500
 
-def vote(qv, k=15):
+def vote(qv, k=33):
     try:
         dists, inds = knn.kneighbors(qv, n_neighbors=k)
         neigh_courses = d.iloc[inds.flatten()]
@@ -202,7 +204,7 @@ def predict_cluster_api():
     try:
         if request.is_json:
             q = request.json.get('query', '')
-            k = int(request.json.get('k_neighbors', 15))
+            k = int(request.json.get('k_neighbors', 33))
             
             if not q.strip():
                 return jsonify({"error": "Query cannot be empty"}), 400
