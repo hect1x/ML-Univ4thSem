@@ -8,7 +8,7 @@ from collections import Counter
 import os, logging
 
 
-# knn evaluation https://colab.research.google.com/drive/1SmJT5yZ4dV_OR9LcjtAOj0Qr36NQzWcF?usp=sharing
+
 logging.basicConfig(level=logging.DEBUG)
 log = logging.getLogger(__name__)
 app = Flask(__name__)
@@ -35,11 +35,7 @@ try:
     if 'Course Rating' in d.columns:
         d['Course Rating'] = d['Course Rating'].apply(safe_float)
         log.info(f"Cleaned Course Rating - min: {d['Course Rating'].min()}, max: {d['Course Rating'].max()}")
-    
-    if 'Keywords' not in d.columns:
-        log.info("Creating 'Keywords'")
-        d['Keywords'] = d['Course Name'].str.lower() + ' ' + d['Skills'].str.lower()
-        d['Keywords'] = d['Keywords'].str.replace(r'\?', "'", regex=True).str.replace(r"\'", "'", regex=True).str.replace(r"\\", "", regex=True)
+
     
     if 'Course URL' in d.columns:
         d['Course URL'] = d['Course URL'].apply(lambda u: u if u.startswith(('http://','https://')) else f'https://{u}' if u else '')
