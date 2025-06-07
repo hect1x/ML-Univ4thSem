@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.neighbors import NearestNeighbors
 import numpy as np
 from collections import Counter
-import os, logging
+import os, logging, pickle
 
 
 
@@ -44,9 +44,16 @@ try:
     X = v.fit_transform(d['Keywords'])
     log.info(f"TF-IDF done: {X.shape}")
     
-    knn = NearestNeighbors(n_neighbors=min(33, len(d)), metric='cosine', algorithm='brute')
-    knn.fit(X)
-    log.info("KNN model trained")
+    if os.path.exists('knn_model.pickle'):
+        with open('knn_model.pickle', 'rb') as f:
+            knn = pickle.load(f)
+        log.info("Loaded pre-trained KNN model from disk")
+    else:
+        knn = NearestNeighbors(n_neighbors=min(33, len(d)), metric='cosine', algorithm='brute')
+        knn.fit(X)
+        with open('knn_model.pickle', 'wb') as f:
+            pickle.dump(knn, f)
+        log.info("Trained and saved new KNN model")
     
     if 'Cluster' in d.columns:
         unique_clusters = d['Cluster'].unique()
