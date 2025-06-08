@@ -1,3 +1,3 @@
-How to run
-pip install -r requirements.txt
-python app.py
+How to run <br>
+pip install -r requirements.txt <br>
+python app.py <br>
